@@ -1,0 +1,1 @@
+@(BOOT|PAE?(-debug)|@(big|huge)mem|debug|enterprise|kdump|?(large)smp?(-debug)|uml|xen?([0U])?(-PAE))
