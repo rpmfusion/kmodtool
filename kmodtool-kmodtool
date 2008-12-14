@@ -139,16 +139,8 @@ EOF
 
 
 
-  # second part
+	# second part
 	if [[ ! "${customkernel}" ]]; then
-      if [[ ! "${redhatkernel}" ]]; then
-         # when we build for custom kernels using "--for-kernels" don't require the meta 
-         # package, as it's useless and complicates things for the user without need
-	     cat <<EOF
-Requires:         kmod-${kmodname}${kernel_variant} >= %{version}-%{release}
-EOF
-      fi
-
 	     cat <<EOF
 Requires:         kernel-uname-r = ${kernel_uname_r}
 BuildRequires:	  kernel-devel-uname-r = ${kernel_uname_r}

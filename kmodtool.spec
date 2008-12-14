@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Sun Dec 14 2008 Thorsten Leemhuis <fedora[AT]leemhuis[DOT]info> - 1-14
+- don't require the kmod-meta package in kmod-(uname -r) packages
+
 * Tue Sep 30 2008 Thorsten Leemhuis <fedora[AT]leemhuis[DOT]info> - 1-13
 - rebuild for RPM Fusion
 
