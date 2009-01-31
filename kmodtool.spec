@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Sat Jan 31 2009 Thorsten Leemhuis <fedora[AT]leemhuis[DOT]info> - 1-15
+- require kmod-${kmodname}-${kernel_uname_r} with >= in meta package to
+  avoid problems if user has a newer akmods package that wants to install
+  a newer kmod-${kmodname}-${kernel_uname_r}
+
 * Sun Dec 14 2008 Thorsten Leemhuis <fedora[AT]leemhuis[DOT]info> - 1-14
 - don't require the kmod-meta package in kmod-(uname -r) packages
 
