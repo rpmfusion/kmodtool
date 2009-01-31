@@ -26,7 +26,7 @@
 shopt -s extglob
 
 myprog="kmodtool-${repo}"
-myver="0.11.3"
+myver="0.11.4"
 
 kmodname=
 build_kernels="current"
@@ -184,7 +184,7 @@ Summary:         Metapackage which tracks in ${kmodname} kernel module for newes
 Group:           System Environment/Kernel
 
 Provides:        ${kmodname}-kmod = %{?epoch:%{epoch}:}%{version}-%{release}
-Requires:        kmod-${kmodname}-${kernel_uname_r} = %{?epoch:%{epoch}:}%{version}-%{release}
+Requires:        kmod-${kmodname}-${kernel_uname_r} >= %{?epoch:%{epoch}:}%{version}-%{release}
 
 %description  -n kmod-${kmodname}${kernel_variant}
 This is a meta-package without payload which sole purpose is to require the
