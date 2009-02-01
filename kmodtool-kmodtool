@@ -80,6 +80,9 @@ Provides: 	${kmodname}-kmod = %{?epoch:%{epoch}:}%{version}-%{release}
 %description -n akmod-${kmodname}
 This package provides the akmod package for the ${kmodname} kernel modules.
 
+%posttrans -n akmod-${kmodname}
+nohup /usr/sbin/akmods --from-akmod-posttrans --akmod ${kmodname} &> /dev/null &
+
 %files -n akmod-${kmodname}
 %defattr(-,root,root,-)
 %{_usrsrc}/akmods/*

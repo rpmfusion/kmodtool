@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Sun Feb 01 2009 Thorsten Leemhuis <fedora[AT]leemhuis[DOT]info> - 1-16
+- add posttrans hooks to akmod packages, to make akmods build them
+  after install or update
+
 * Sat Jan 31 2009 Thorsten Leemhuis <fedora[AT]leemhuis[DOT]info> - 1-15
 - require kmod-${kmodname}-${kernel_uname_r} with >= in meta package to
   avoid problems if user has a newer akmods package that wants to install
