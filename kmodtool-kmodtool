@@ -26,7 +26,7 @@
 shopt -s extglob
 
 myprog="kmodtool-${repo}"
-myver="0.11.4"
+myver="0.11.5"
 
 kmodname=
 build_kernels="current"
@@ -76,6 +76,14 @@ Requires: 	akmods
 # same requires and provides as a kmods package would have
 Requires: 	${kmodname}-kmod-common >= %{?epoch:%{epoch}:}%{version}
 Provides: 	${kmodname}-kmod = %{?epoch:%{epoch}:}%{version}-%{release}
+EOF
+
+	if [[ ${obsolete_name} ]]; then
+		echo "Provides:   akmod-${obsolete_name} = ${obsolete_version}"
+		echo "Obsoletes:  akmod-${obsolete_name} < ${obsolete_version}"
+	fi
+
+	cat <<EOF
 
 %description -n akmod-${kmodname}
 This package provides the akmod package for the ${kmodname} kernel modules.
@@ -102,6 +110,13 @@ Provides:        kmod-${kmodname}-xen = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:        kmod-${kmodname}-smp = %{?epoch:%{epoch}:}%{version}-%{release}
 Provides:        kmod-${kmodname}-PAE = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:        akmod-${kmodname} = %{?epoch:%{epoch}:}%{version}-%{release}
+EOF
+
+	if [[ ${obsolete_name} ]]; then
+		echo "Provides:        kmod-${obsolete_name} = ${obsolete_version}"
+		echo "Obsoletes:       kmod-${obsolete_name} < ${obsolete_version}"
+	fi
+cat <<EOF
 
 %description  -n kmod-${kmodname}${dashvariant}
 This is a meta-package without payload which sole purpose is to require the
@@ -137,10 +152,12 @@ Provides:         ${kmodname}-kmod = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:         ${kmodname}-kmod-common >= %{?epoch:%{epoch}:}%{version}
 Requires(post):   /sbin/depmod
 Requires(postun): /sbin/depmod
-
 EOF
 
-
+	if [[ ${obsolete_name} ]]; then
+		echo "Provides:        kmod-${obsolete_name}-${kernel_uname_r} = ${obsolete_version}"
+		echo "Obsoletes:       kmod-${obsolete_name}-${kernel_uname_r} < ${obsolete_version}"
+	fi
 
 	# second part
 	if [[ ! "${customkernel}" ]]; then
@@ -188,6 +205,14 @@ Group:           System Environment/Kernel
 
 Provides:        ${kmodname}-kmod = %{?epoch:%{epoch}:}%{version}-%{release}
 Requires:        kmod-${kmodname}-${kernel_uname_r} >= %{?epoch:%{epoch}:}%{version}-%{release}
+EOF
+	
+		if [[ ${obsolete_name} ]]; then
+			echo "Provides:        kmod-${obsolete_name}${kernel_variant} = ${obsolete_version}"
+			echo "Obsoletes:       kmod-${obsolete_name}${kernel_variant} < ${obsolete_version}"
+		fi
+
+		cat <<EOF
 
 %description  -n kmod-${kmodname}${kernel_variant}
 This is a meta-package without payload which sole purpose is to require the
@@ -307,6 +332,22 @@ while [ "${1}" ] ; do
 			shift
 			noakmod="true"
 			;;
+		--obsolete-name)
+			shift
+			if [[ ! "${1}" ]] ; then
+				error_out 2 "Please provide the name of the kmod to obsolte together with --obsolete-name" >&2
+	 		fi
+			obsolete_name="${1}"
+			shift
+			;;
+		--obsolete-version)
+			shift
+			if [[ ! "${1}" ]] ; then
+				error_out 2 "Please provide the version of the kmod to obsolte together with --obsolete-version" >&2
+	 		fi
+			obsolete_version="${1}"
+			shift
+			;;
 		--target)
 			shift
 			target="${1}"
@@ -355,6 +396,8 @@ elif [[ ! "${kmodname}" ]]; then
 		error_out 2 "please pass kmodname with --kmodname"
 elif [[ ! "${kernels_known_variants}" ]] ; then
 		error_out 2 "could not determine known variants"
+elif ( [[ "${obsolete_name}" ]] && [[ ! "${obsolete_version}" ]] ) ||  ( [[ ! "${obsolete_name}" ]] && [[ "${obsolete_version}" ]] ) ; then
+		error_out 2 "you need to provide both --obsolete-name and --obsolete-version"
 fi
 
 # go
