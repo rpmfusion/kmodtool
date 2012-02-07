@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # kmodtool - Helper script for building kernel module RPMs
-# Copyright (c) 2003-2008 Ville Skyttä <ville.skytta@iki.fi>,
+# Copyright (c) 2003-2012 Ville Skyttä <ville.skytta@iki.fi>,
 #                         Thorsten Leemhuis <fedora@leemhuis.info>
+#                         Nicolas Chauvet <kwizart@gmail.com>
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -26,7 +27,7 @@
 shopt -s extglob
 
 myprog="kmodtool-${repo}"
-myver="0.11.5"
+myver="0.12.0"
 
 kmodname=
 build_kernels="current"
@@ -43,16 +44,16 @@ error_out()
 	shift
 	echo "Error: $@" >&2
 	# the next line is not multi-line safe -- not needed *yet*
-	echo "%define kmodtool_check echo \"kmodtool error: $@\"; exit ${errorlevel};"
+	echo "%global kmodtool_check echo \"kmodtool error: $@\"; exit ${errorlevel};"
 	exit ${errorlevel}
 }
 
 print_rpmtemplate_header()
 {
 	echo
-	echo '%define kmodinstdir_prefix  '/lib/modules/
-	echo '%define kmodinstdir_postfix '/extra/${kmodname}/
-	echo '%define kernel_versions     '${kernel_versions}
+	echo '%global kmodinstdir_prefix  '/usr/lib/modules/
+	echo '%global kmodinstdir_postfix '/extra/${kmodname}/
+	echo '%global kernel_versions     '${kernel_versions}
 	echo
 }
 
@@ -61,7 +62,7 @@ print_akmodtemplate ()
 	echo
 	cat <<EOF
 
-%define akmod_install mkdir -p \$RPM_BUILD_ROOT/%{_usrsrc}/akmods/; \\\
+%global akmod_install mkdir -p \$RPM_BUILD_ROOT/%{_usrsrc}/akmods/; \\\
 rpmbuild --define "_sourcedir %{_sourcedir}" \\\
 --define "_srcrpmdir \$RPM_BUILD_ROOT/%{_usrsrc}/akmods/" \\\
 -bs --nodeps %{_specdir}/%{name}.spec ; \\\
@@ -187,7 +188,7 @@ This package provides the ${kmodname} kernel modules built for the Linux
 kernel ${kernel_uname_r} for the %{_target_cpu} family of processors.
 %files        -n kmod-${kmodname}-${kernel_uname_r}
 %defattr(644,root,root,755)
-/lib/modules/${kernel_uname_r}/extra/${kmodname}/
+/usr/lib/modules/${kernel_uname_r}/extra/${kmodname}/
 
 
 EOF
@@ -237,14 +238,14 @@ print_customrpmtemplate ()
 			# parse kernel versions string and print template
 			local kernel_verrelarch=${kernel%%${kernels_known_variants}}
 			print_rpmtemplate_per_kmodpkg --redhat ${kernel} ${kernel##${kernel_verrelarch}}
-		elif [[ -e /lib/modules/"${kernel}"/build/Makefile ]] ; then 
+		elif [[ -e /usr/lib/modules/"${kernel}"/build/Makefile ]] ; then 
 			# likely a user-build-kernel with available buildfiles
 			# fixme: we should check if uname from Makefile is the same as ${kernel}
 
-			kernel_versions="${kernel_versions}${kernel}___/lib/modules/${kernel}/build/ "
+			kernel_versions="${kernel_versions}${kernel}___/usr/lib/modules/${kernel}/build/ "
 			print_rpmtemplate_per_kmodpkg --custom "${kernel}"
 		else
-			error_out 2 "Don't know how to handle ${kernel} -- /lib/modules/${kernel}/build/Makefile not found"
+			error_out 2 "Don't know how to handle ${kernel} -- /usr/lib/modules/${kernel}/build/Makefile not found"
 		fi
 	done
 

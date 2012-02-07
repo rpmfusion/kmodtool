@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        18%{?dist}
+Release:        19%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Wed Feb 01 2012 Nicolas Chauvet <kwizart@gmail.com> - 1-19
+- Update to 0.12.0
+
 * Sun Mar 29 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 1-18
 - rebuild for new F11 features
 
