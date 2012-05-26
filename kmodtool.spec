@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        19%{?dist}
+Release:        20%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Sat May 26 2012 Nicolas Chauvet <kwizart@gmail.com> - 1-20
+- Fix for depmod - rfbz#2340
+
 * Wed Feb 01 2012 Nicolas Chauvet <kwizart@gmail.com> - 1-19
 - Update to 0.12.0
 
