@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Sat Feb 23 2013 Nicolas Chauvet <kwizart@gmail.com> - 1-22
+- Fix directory ownership rfbz#2684
+
 * Mon Sep 03 2012 Nicolas Chauvet <kwizart@gmail.com> - 1-21
 - Add ARM varriant
 
