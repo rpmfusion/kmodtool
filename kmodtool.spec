@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Sat Dec 07 2013 Nicolas Chauvet <kwizart@gmail.com> - 1-23
+- Add support for lpae kernel variant for ARM
+
 * Sat Feb 23 2013 Nicolas Chauvet <kwizart@gmail.com> - 1-22
 - Fix directory ownership rfbz#2684
 
