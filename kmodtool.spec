@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        23%{?dist}
+Release:        23%{?dist}.1
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Tue Aug 23 2016 Nicolas Chauvet <nicolas.chauvet@kwizart.fr> - 1-23.1
+- Bump for dist
+
 * Sat Dec 07 2013 Nicolas Chauvet <kwizart@gmail.com> - 1-23
 - Add support for lpae kernel variant for ARM
 
