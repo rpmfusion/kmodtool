@@ -377,7 +377,7 @@ while [ "${1}" ] ; do
 			;;
 		*)
 			echo "Error: Unknown option '${1}'." >&2
-			usage >&2
+			myprog_help >&2
 			exit 2
 			;;
 	esac
