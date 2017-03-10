@@ -37,6 +37,7 @@ kernel_versions_to_build_for=
 prefix=
 filterfile=
 target=
+postfix_type="extra"
 
 error_out()
 {
@@ -52,7 +53,7 @@ print_rpmtemplate_header()
 {
 	echo
 	echo '%global kmodinstdir_prefix  '/usr/lib/modules/
-	echo '%global kmodinstdir_postfix '/extra/${kmodname}/
+	echo '%global kmodinstdir_postfix '/${postfix_type}/${kmodname}/
 	echo '%global kernel_versions     '${kernel_versions}
 	echo
 }
@@ -188,8 +189,8 @@ This package provides the ${kmodname} kernel modules built for the Linux
 kernel ${kernel_uname_r} for the %{_target_cpu} family of processors.
 %files        -n kmod-${kmodname}-${kernel_uname_r}
 %defattr(644,root,root,755)
-%dir /usr/lib/modules/${kernel_uname_r}/extra
-/usr/lib/modules/${kernel_uname_r}/extra/${kmodname}/
+%dir /usr/lib/modules/${kernel_uname_r}/${postfix_type}
+/usr/lib/modules/${kernel_uname_r}/${postfix_type}/${kmodname}/
 
 
 EOF
@@ -291,6 +292,7 @@ myprog_help ()
 	echo " --noakmod            -- no akmod package"
 	echo " --repo <name>        -- use buildsys-build-<name>-kerneldevpkgs"
 	echo " --target <arch>      -- target-arch (required)"
+	echo " --update             -- install modules into updates subfolder (default is extra)"
 }
 
 while [ "${1}" ] ; do
@@ -366,6 +368,10 @@ while [ "${1}" ] ; do
 		--current)
 			shift
 			build_kernels="current"
+			;;
+		--update)
+			shift
+			postfix_type="updates"
 			;;
 		--help)
 			myprog_help

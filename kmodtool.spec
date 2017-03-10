@@ -1,6 +1,6 @@
 Name:           kmodtool
 Version:        1
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        Tool for building kmod packages
 
 Group:          Development/Tools
@@ -51,6 +51,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 
 %changelog
+* Fri Mar 10 2017 Felix Kaechele <felix@kaechele.ca> - 1-24
+- Add option to install modules into updates subfolder
+
 * Sat Dec 07 2013 Nicolas Chauvet <kwizart@gmail.com> - 1-23
 - Add support for lpae kernel variant for ARM
 
